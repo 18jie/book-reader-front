@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from '@/views/Login'
 import Books from '@/views/Books'
 import BookDetail from '@/views/BookDetail'
+import Axios from 'axios'
 
 Vue.use(Router)
 
@@ -22,7 +23,7 @@ export default new Router({
       name: 'BookDetail',
       component: BookDetail
     }
-  ]
+  ],
 })
 
 
