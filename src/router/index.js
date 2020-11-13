@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Login from '@/views/Login'
 import Books from '@/views/Books'
 import BookDetail from '@/views/BookDetail'
-import Axios from 'axios'
+import BookReader from '@/views/BookReader'
 
 Vue.use(Router)
 
@@ -22,6 +22,11 @@ var router =  new Router({
       path: '/BookDetail',
       name: 'BookDetail',
       component: BookDetail
+    },
+    {
+      path: '/BookReader',
+      name: 'BookReader',
+      component: BookReader
     }
   ],
 })
