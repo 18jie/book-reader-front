@@ -47,15 +47,15 @@ export default {
   data() {
     return {
       activeIndex: "1",
+      search:"",
       // activeIndex2: "1",
     }
+  },
+  methods: {
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    },
   }
-  // },
-  // methods: {
-  //   handleSelect(key, keyPath) {
-  //     console.log(key, keyPath);
-  //   },
-  // },
 };
 </script>
 

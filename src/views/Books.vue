@@ -105,7 +105,11 @@
           <h1>分类阅读</h1>
         </div>
         <div v-if="bookMainList != null">
-          <el-table :data="bookMainList" style="width: 100%">
+          <el-table
+            :data="bookMainList"
+            style="width: 100%"
+            @row-click="handleRowClick"
+          >
             <el-table-column prop="bookName" label="书籍名称" width="180">
             </el-table-column>
             <el-table-column prop="bookType" label="书籍类型" width="180">
@@ -201,7 +205,6 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.data.code == 0) {
-            this.bookMainList = response.data.records;
             this.bookMainList = response.data.data.records;
             this.pageTotal = response.data.data.pages;
           }
@@ -214,21 +217,43 @@ export default {
         }
       });
     },
+    getMainData() {
+      axios
+        .get(
+          "/api/book-reader/book/listBooks?type=" +
+            this.keyIndex +
+            "&pageNum=" +
+            this.currentPage +
+            "&pageSize=" +
+            this.pageSize
+        )
+        .then((response) => {
+          if (response.data.code == 0) {
+            this.bookMainList = response.data.data.records;
+            this.pageTotal = response.data.data.pages;
+          }
+        });
+    },
+    handleRowClick(val) {
+      console.log(val);
+      this.$router.push({ name: "BookDetail", params: { bookId: val.id } });
+      console.log(this.$router);
+    },
   },
   mounted: function () {
     this.getSideData();
+    this.getMainData();
   },
 };
 </script>
 
-<style>
+<style scoped>
 .books_main {
   padding-left: 5%;
   padding-right: 5%;
 }
 .el-aside {
-  background-color: #d3dce6;
-  /* color: #333; */
+  background-color: white;
   text-align: center;
   /* line-height: 200px;
   height: 200px; */
@@ -236,15 +261,14 @@ export default {
   margin-left: 20px;
 }
 .el-main {
-  background-color: #e9eef3;
-  color: #333;
+  background-color: white;
   text-align: center;
   /* line-height: 160px; */
   margin-top: 20px;
   margin-left: 20px;
 }
 .el-header {
-  color: #333;
+  /* color: #333; */
   text-align: center;
   line-height: 60px;
 }

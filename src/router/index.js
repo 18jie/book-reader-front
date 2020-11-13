@@ -7,14 +7,14 @@ import Axios from 'axios'
 
 Vue.use(Router)
 
-export default new Router({
+var router =  new Router({
   routes: [{
       path: '/login',
       name: 'Login',
       component: Login
     },
     {
-      path: '/books',
+      path: '/',
       name: 'Books',
       component: Books
     },
@@ -25,6 +25,8 @@ export default new Router({
     }
   ],
 })
+
+export default router;
 
 
 // 注册全局钩子用来拦截导航
