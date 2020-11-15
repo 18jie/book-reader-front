@@ -1,18 +1,20 @@
 <template>
   <el-container>
     <el-main>
-      <el-row style="height: 200px">
+      <el-row style="height: 200px;text-align: center;">
         <h1>{{book.bookName}}</h1>
         <p>书籍作者：{{book.bookWriter}}</p>
         <p>书记类型：{{book.bookType}}</p>
         <p>点击次数：{{book.bookClickCount}}</p>
+        <p v-if="book.isFavorite">是否喜欢：是</p>
+        <p v-else>是否喜欢：否</p>
       </el-row>
       <el-row style="height: 400px">
         <div v-if="book.chapters != null">
           <el-col v-for="chapter in book.chapters"
                   v-bind:key="chapter.id">
-            <router-link :to="{path:'/BookReader',params:{bookId:chapter.boodId,chapterId:chapter.id}}"
-                         target="_blank">{{chapter.chapterName}}</router-link>
+            <router-link :to="{name:'BookReader',params:{bookId:chapter.boodId,chapterId:chapter.id}}"
+                         >{{chapter.chapterName}}</router-link>
           </el-col>
         </div>
 
@@ -48,11 +50,5 @@ export default {
 </script>
 
 <style scoped>
-.el_container {
-  padding-left: 5%;
-  padding-right: 5%;
-}
-.el_main {
-  text-align: center;
-}
+
 </style>>
