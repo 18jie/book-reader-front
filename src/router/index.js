@@ -4,14 +4,20 @@ import Login from '@/views/Login'
 import Books from '@/views/Books'
 import BookDetail from '@/views/BookDetail'
 import BookReader from '@/views/BookReader'
+import Regster from '@/views/Regster'
 
 Vue.use(Router)
 
-var router =  new Router({
+var router = new Router({
   routes: [{
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/Regster',
+      name: 'Regster',
+      component: Regster
     },
     {
       path: '/',

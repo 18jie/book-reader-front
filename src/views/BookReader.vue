@@ -1,21 +1,39 @@
 <template>
   <el-container>
     <el-main class="read_main">
-      <p v-for="(line, index) in chapter.lines" v-bind:key="index">
+      <p v-for="(line, index) in chapter.lines"
+         v-bind:key="index">
         {{ line.line }}
         <!-- <el-tag @click="handleComment(line.line, chapter.id)"></el-tag> -->
-        <el-button
-          @click="handleComment(line.line, chapter.id)"
-          type="primary"
-          style="margin-left: 16px"
-          size="small"
-        >
-          <!-- {{line.commitNum}} -->1
+        <el-button @click="handleComment(line.line, chapter.id)"
+                   type="primary"
+                   style="margin-left: 16px"
+                   size="small">
+          {{line.commitNum}}
         </el-button>
       </p>
 
-      <el-drawer title="我是标题" :visible.sync="drawer" :with-header="false">
-        <span>我来啦!</span>
+      <el-drawer title="我是标题"
+                 :visible.sync="drawer"
+                 :with-header="false">
+        <p v-for="comment in comments"
+           :key="comment.id">
+          {{comment.content}}
+        </p>
+        <el-row>
+          <el-col :span="20">
+            <el-input style="margin:5px" type="textarea"
+                      :rows="2"
+                      placeholder="请输入内容"
+                      v-model="textarea">
+            </el-input>
+          </el-col>
+          <el-col :span="4">
+            <el-button style="margin:10px" type="success"
+                       icon="el-icon-check"
+                       circle></el-button>
+          </el-col>
+        </el-row>
       </el-drawer>
     </el-main>
     <!-- <el-aside style="width:40%;background-color:green;">
@@ -35,6 +53,7 @@ export default {
       chapter: {},
       comments: [],
       drawer: false,
+      textarea: "",
       // commentData: null,
     };
   },
