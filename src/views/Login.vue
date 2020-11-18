@@ -9,10 +9,10 @@
         </div>
         <table id="login_form">
           <tr>
-            <td>用户名</td>
+            <td>手机号</td>
             <td>
-              <el-input v-model="user.username"
-                        placeholder="请输入用户名"></el-input>
+              <el-input v-model="user.userPhone"
+                        placeholder="请输入手机号"></el-input>
             </td>
           </tr>
           <tr>
@@ -46,6 +46,7 @@
 
 <script>
 import axios from "axios";
+// import global from "@/api/Global";
 export default {
   //单页面中不支持前面的data:{}方式
   data() {
@@ -58,7 +59,7 @@ export default {
       //可是一般来说可能希望在不同的组件中引用的时候，使用不同的值，所以这里要用return
       //这样在A组件和B组件分别引用这个变量的时候是不会互相影响的
       user: {
-        username: "请输入用户名",
+        userPhone: "请输入用户名",
         password: "请输入密码",
         //为了登录方便，可以直接在这里写好用户名和密码的值
       },
@@ -66,21 +67,26 @@ export default {
   },
   methods: {
     doLogin() {
+      console.log("登录方法");
       //一点击登录按钮，这个方法就会执行
       //alert(JSON.stringify(this.user))可以直接把this.user对象传给后端进行校验用户名和密码
       axios
-        .post("/login", {
-          username: this.user.username,
+        .post("/api/book-reader/login/doLogin", {
+          userPhone: this.user.userPhone,
           password: this.user.password,
         })
         .then((response) => {
-          if (response.status == 1) {
+          console.log(response);
+          if (response.data.code == 0) {
             this.$message({
               message: "登陆成功",
               type: "success",
             });
+            console.log(response.data.data.id);
+            this.$root.userId = response.data.data.id;
+            console.log(sessionStorage.getItem(this.$root.userId));
             //跳到用户界面
-            this.$router.push({ name: "activity" });
+            // this.$router.push({ name: "activity" });
           }
         });
     },

@@ -82,10 +82,9 @@ export default {
           age: this.user.age,
         })
         .then((response) => {
-          console.log(response)
           if (response.data.code == 0) {
             this.$message({
-              message: "登陆成功",
+              message: "注册成功",
               type: "success",
             });
             //跳到登录界面

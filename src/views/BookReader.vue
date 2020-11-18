@@ -22,14 +22,17 @@
         </p>
         <el-row>
           <el-col :span="20">
-            <el-input style="margin:5px" type="textarea"
+            <el-input style="margin:5px"
+                      type="textarea"
                       :rows="2"
-                      placeholder="请输入内容"
+                      :placeholder="inputPlaceholder"
+                      :disabled="inputDisabled"
                       v-model="textarea">
             </el-input>
           </el-col>
           <el-col :span="4">
-            <el-button style="margin:10px" type="success"
+            <el-button style="margin:10px"
+                       type="success"
                        icon="el-icon-check"
                        circle></el-button>
           </el-col>
@@ -54,6 +57,8 @@ export default {
       comments: [],
       drawer: false,
       textarea: "",
+      inputDisabled: true,
+      inputPlaceholder: "请输入内容",
       // commentData: null,
     };
   },
@@ -88,6 +93,12 @@ export default {
   created: function () {
     console.log(this.$route.params);
     this.getChapter(this.$route.params.chapterId);
+    var userId = sessionStorage.getItem("userId");
+    console.log(userId);
+    if (userId != null) {
+      this.inputDisabled = false;
+      this.inputPlaceholder = "请先登录！";
+    }
   },
 };
 </script>
