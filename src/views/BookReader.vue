@@ -50,6 +50,7 @@
 
 <script>
 import axios from "axios";
+axios.defaults.withCredentials = true;
 export default {
   data() {
     return {
@@ -65,7 +66,7 @@ export default {
   methods: {
     getChapter(id) {
       axios
-        .get("/api/book-reader/chapter/chapterDetail", {
+        .get("/book-reader/chapter/chapterDetail", {
           params: { chapterId: id },
         })
         .then((res) => {
@@ -78,7 +79,7 @@ export default {
       this.drawer = true;
       console.log(line, id);
       axios
-        .get("/api/book-reader/barrage/listBarrage", {
+        .get("/book-reader/barrage/listBarrage", {
           params: { chapterId: id, comment: line },
         })
         .then((res) => {
@@ -89,16 +90,21 @@ export default {
           }
         });
     },
+    isLogin() {
+      axios.get("/book-reader/login/isLogin").then((res) => {
+        if (res.data.code == 0) {
+          console.log(res.data)
+          if (res.data.data != null) {
+            this.inputDisabled = false;
+          }
+        }
+      });
+    },
   },
   created: function () {
     console.log(this.$route.params);
     this.getChapter(this.$route.params.chapterId);
-    var userId = sessionStorage.getItem("userId");
-    console.log(userId);
-    if (userId != null) {
-      this.inputDisabled = false;
-      this.inputPlaceholder = "请先登录！";
-    }
+    this.isLogin();
   },
 };
 </script>

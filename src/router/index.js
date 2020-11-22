@@ -5,6 +5,7 @@ import Books from '@/views/Books'
 import BookDetail from '@/views/BookDetail'
 import BookReader from '@/views/BookReader'
 import Regster from '@/views/Regster'
+import UserInfo from '@/views/UserInfo'
 
 Vue.use(Router)
 
@@ -33,12 +34,16 @@ var router = new Router({
       path: '/BookReader',
       name: 'BookReader',
       component: BookReader
+    },
+    {
+      path: '/UserInfo',
+      name: 'UserInfo',
+      component: UserInfo
     }
   ],
 })
 
 export default router;
-
 
 // 注册全局钩子用来拦截导航
 // router.beforeEach((to, from, next) => {

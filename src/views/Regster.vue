@@ -60,6 +60,7 @@
 
 <script>
 import axios from "axios";
+axios.defaults.withCredentials = true;
 export default {
   data() {
     return {
@@ -75,7 +76,7 @@ export default {
     doRegister() {
       console.log(".........");
       axios
-        .post("/api/book-reader/login/register", {
+        .post("/book-reader/user/register", {
           userName: this.user.username,
           userPhone: this.user.userphone,
           password: this.user.password,

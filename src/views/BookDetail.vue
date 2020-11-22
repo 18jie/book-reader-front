@@ -64,6 +64,7 @@
 
 <script>
 import axios from "axios";
+axios.defaults.withCredentials = true;
 export default {
   data() {
     return {
@@ -73,7 +74,7 @@ export default {
   methods: {
     defaultMessage(id) {
       axios
-        .get("/api/book-reader/book/bookDetail", { params: { bookId: id } })
+        .get("/book-reader/book/bookDetail", { params: { bookId: id } })
         .then((res) => {
           if (res.data.code == 0) {
             console.log(res.data.data);

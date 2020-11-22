@@ -46,6 +46,7 @@
 
 <script>
 import axios from "axios";
+axios.defaults.withCredentials = true;
 // import global from "@/api/Global";
 export default {
   //单页面中不支持前面的data:{}方式
@@ -71,7 +72,7 @@ export default {
       //一点击登录按钮，这个方法就会执行
       //alert(JSON.stringify(this.user))可以直接把this.user对象传给后端进行校验用户名和密码
       axios
-        .post("/api/book-reader/login/doLogin", {
+        .post("/book-reader/login/doLogin", {
           userPhone: this.user.userPhone,
           password: this.user.password,
         })
@@ -83,10 +84,11 @@ export default {
               type: "success",
             });
             console.log(response.data.data.id);
-            this.$root.userId = response.data.data.id;
-            console.log(sessionStorage.getItem(this.$root.userId));
+            this.$store.dispatch("setUser", response.data.data.id);
+            this.$store.dispatch("setIsAuthenticate", true);
+            console.log(this.$store.getters.isAuthenticate);
             //跳到用户界面
-            // this.$router.push({ name: "activity" });
+            this.$router.push({ name: "UserInfo" });
           }
         });
     },

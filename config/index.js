@@ -11,12 +11,12 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api': { //进入重新的名称
+      '/book-reader': { //进入重新的名称
             target: 'http://localhost:8081/', // 服务端接口地址
             changeOrigin: true, // 是否允许跨越
-            pathRewrite: {
-              '^/api': '' // 重写,
-            }
+            // pathRewrite: {
+            //   '^/book-reader': '/book-reader' // 重写,
+            // }
           },
     },
 

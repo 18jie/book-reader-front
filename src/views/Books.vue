@@ -41,8 +41,18 @@
                        @click="searchMethod"></el-button>
           </el-col>
           <el-col :span="1">
-            <router-link class="el-icon-user"
+            <router-link v-if="user == null"
+                         class="el-icon-user"
                          :to="{ path: '/Login' }"
+                         target="_blank"></router-link>
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="已登录"
+                        placement="top-start">
+            </el-tooltip>
+            <router-link v-if="user != null"
+                         class="el-icon-user-solid"
+                         :to="{ path: '/UserInfo' }"
                          target="_blank"></router-link>
           </el-col>
         </el-menu>
@@ -107,6 +117,7 @@
 
 <script>
 import axios from "axios";
+axios.defaults.withCredentials = true;
 export default {
   data() {
     return {
@@ -118,6 +129,7 @@ export default {
       pageSize: 10,
       currentPage: 1,
       keyIndex: 2,
+      user: null,
     };
   },
   methods: {
@@ -128,7 +140,7 @@ export default {
       this.currentPage = 1;
       axios
         .get(
-          "/api/book-reader/book/listBooks?type=" +
+          "/book-reader/book/listBooks?type=" +
             keyPath +
             "&pageNum=" +
             this.currentPage +
@@ -149,7 +161,7 @@ export default {
       this.currentPage = val;
       axios
         .get(
-          "/api/book-reader/book/listBooks?type=" +
+          "/book-reader/book/listBooks?type=" +
             this.keyIndex +
             "&pageNum=" +
             this.currentPage +
@@ -165,7 +177,7 @@ export default {
         });
     },
     getSideData() {
-      axios.get("/api/book-reader/book/listBooks").then((response) => {
+      axios.get("/book-reader/book/listBooks").then((response) => {
         if (response.data.code == 0) {
           this.bookSiteList = response.data.data.records;
         }
@@ -174,7 +186,7 @@ export default {
     getMainData() {
       axios
         .get(
-          "/api/book-reader/book/listBooks?type=" +
+          "/book-reader/book/listBooks?type=" +
             this.keyIndex +
             "&pageNum=" +
             this.currentPage +
@@ -195,7 +207,7 @@ export default {
     },
     searchMethod() {
       axios
-        .get("/api/book-reader/book/listBooksByName", {
+        .get("/book-reader/book/listBooksByName", {
           params: { name: this.search },
         })
         .then((res) => {
@@ -206,10 +218,18 @@ export default {
           }
         });
     },
+    getUser() {
+      axios.get("/book-reader/login/isLogin").then((res) => {
+        if (res.data.code == 0) {
+          this.user = res.data.data;
+        }
+      });
+    },
   },
   mounted: function () {
     this.getSideData();
     this.getMainData();
+    this.getUser();
   },
 };
 </script>
