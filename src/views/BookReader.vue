@@ -34,6 +34,7 @@
             <el-button style="margin:10px"
                        type="success"
                        icon="el-icon-check"
+                       @click="submitComment"
                        circle></el-button>
           </el-col>
         </el-row>
@@ -60,6 +61,7 @@ export default {
       textarea: "",
       inputDisabled: true,
       inputPlaceholder: "请输入内容",
+      currentLine: "",
       // commentData: null,
     };
   },
@@ -72,37 +74,55 @@ export default {
         .then((res) => {
           if (res.data.code == 0) {
             this.chapter = res.data.data;
+            console.log(this.chapter);
           }
         });
     },
     handleComment(line, id) {
+      this.currentLine = line;
       this.drawer = true;
-      console.log(line, id);
+      // console.log(line, id);
       axios
         .get("/book-reader/barrage/listBarrage", {
           params: { chapterId: id, comment: line },
         })
         .then((res) => {
           if (res.data.code == 0) {
-            console.log(res.data.data.records);
+            // console.log(res.data.data.records);
             this.comments = res.data.data.records;
-            console.log(this.comments);
+            // console.log(this.comments);
           }
         });
     },
     isLogin() {
       axios.get("/book-reader/login/isLogin").then((res) => {
         if (res.data.code == 0) {
-          console.log(res.data)
+          // console.log(res.data);
           if (res.data.data != null) {
             this.inputDisabled = false;
           }
         }
       });
     },
+    submitComment() {
+      // console.log("submitComment" + this.textarea);
+      axios
+        .post("/book-reader/barrage/saveBarrage", {
+          bookId: this.chapter.bookId,
+          chapterId: this.chapter.id,
+          contentCode: this.currentLine,
+          content: this.textarea,
+        })
+        .then((res) => {
+          if (res.data.code == 0) {
+            this.textarea = "";
+            this.handleComment(this.currentLine, this.chapter.id);
+          }
+        });
+    },
   },
   created: function () {
-    console.log(this.$route.params);
+    // console.log(this.$route.params);
     this.getChapter(this.$route.params.chapterId);
     this.isLogin();
   },

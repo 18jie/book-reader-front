@@ -17,24 +17,12 @@
             <p>点击次数：{{ book.bookClickCount }}</p>
           </el-col>
           <el-col :span="9">
-            <p v-if="book.isFavorite">是否喜欢：是</p>
-            <p v-else>是否喜欢：否</p>
+            <div class="el-icon-star-off" style="font-size:40px"
+                 v-if="book.isFavorite"></div>
+            <div style="font-size:40px" class="el-icon-star-on"
+                 v-else></div>
           </el-col>
         </el-card>
-        <!-- <h1>{{ book.bookName }}</h1>
-        <el-col :span="9"
-          ><p>书籍作者：{{ book.bookWriter }}</p></el-col
-        >
-        <el-col :span="9"
-          ><p>书记类型：{{ book.bookType }}</p></el-col
-        >
-        <el-col :span="9"
-          ><p>点击次数：{{ book.bookClickCount }}</p></el-col
-        >
-        <el-col :span="9"
-          ><p v-if="book.isFavorite">是否喜欢：是</p>
-          <p v-else>是否喜欢：否</p></el-col
-        > -->
       </el-row>
       <el-divider></el-divider>
       <el-row style="
@@ -69,6 +57,7 @@ export default {
   data() {
     return {
       book: {},
+      isLogin: false,
     };
   },
   methods: {
@@ -81,6 +70,16 @@ export default {
             this.book = res.data.data;
           }
         });
+    },
+    isLogin() {
+      axios.get("/book-reader/login/isLogin").then((res) => {
+        if (res.data.code == 0) {
+          // console.log(res.data);
+          if (res.data.data != null) {
+            this.isLogin = true;
+          }
+        }
+      });
     },
   },
   created: function () {
