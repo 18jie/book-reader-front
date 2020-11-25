@@ -29,20 +29,24 @@
       <div v-if="index == 2">
         <UserBase />
       </div>
-
+      <div v-if="index == 3">
+        <UserFavorite />
     </el-main>
   </el-container>
 </template>
 
 <script>
 import UserBase from "@/components/UserBase";
+import UserFavorite from "@/components/UserFavorite";
 export default {
   components: {
     UserBase,
+    UserFavorite,
   },
   data() {
     return {
       index: 2,
+      bookIdData: null,
     };
   },
   methods: {

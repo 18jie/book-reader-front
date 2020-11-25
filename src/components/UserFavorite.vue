@@ -40,6 +40,9 @@ export default {
       });
     },
   },
+  mounted: function () {
+    this.getBooks();
+  },
 };
 </script>
 
