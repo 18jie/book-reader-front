@@ -17,10 +17,22 @@
             <p>点击次数：{{ book.bookClickCount }}</p>
           </el-col>
           <el-col :span="9">
-            <div class="el-icon-star-off" style="font-size:40px"
-                 v-if="book.isFavorite"></div>
-            <div style="font-size:40px" class="el-icon-star-on"
-                 v-else></div>
+            收藏：
+            <!-- <a href="#"
+               class="el-icon-star-off"
+               style="font-size:40px"
+               v-if="book.isFavorite == null || loging"></a>
+            <a v-else
+               style="font-size:40px"
+               class="el-icon-star-on"></a> -->
+            <div class="el-icon-star-off"
+                 style="font-size:40px;cursor:pointer"
+                 @click="handleFavorite()"
+                 v-if="loging == false || book.isFavorite == null || book.isFavorite == false"></div>
+            <div v-else
+                 style="font-size:40px;cursor:pointer"
+                 @click="handleFavorite()"
+                 class="el-icon-star-on"><a href="#"></a></div>
           </el-col>
         </el-card>
       </el-row>
@@ -57,7 +69,7 @@ export default {
   data() {
     return {
       book: {},
-      isLogin: false,
+      loging: false,
     };
   },
   methods: {
@@ -76,13 +88,37 @@ export default {
         if (res.data.code == 0) {
           // console.log(res.data);
           if (res.data.data != null) {
-            this.isLogin = true;
+            this.loging = true;
           }
         }
       });
     },
+    handleFavorite() {
+      if (this.loging == false) {
+        this.$message({
+          message: "请先登录",
+          type: "error",
+        });
+        return;
+      }
+      console.log("1111");
+      axios
+        .get("/book-reader/favorite/addOrRemoveFavorite", {
+          params: {
+            bookId: this.book.id,
+          },
+        })
+        .then((res) => {
+          if (res.data.code == 0) {
+            if (res.data.data == true) {
+              this.defaultMessage(this.book.id);
+            }
+          }
+        });
+    },
   },
   created: function () {
+    this.isLogin();
     this.defaultMessage(this.$route.params.bookId);
   },
 };
