@@ -31,6 +31,7 @@
       </div>
       <div v-if="index == 3">
         <UserFavorite />
+      </div>
     </el-main>
   </el-container>
 </template>

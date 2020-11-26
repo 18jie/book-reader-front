@@ -16,10 +16,21 @@
       <el-drawer title="我是标题"
                  :visible.sync="drawer"
                  :with-header="false">
-        <p v-for="comment in comments"
+        <!-- <div v-for="comment in comments"
            :key="comment.id">
           {{comment.content}}
-        </p>
+        </div> -->
+        <el-card v-for="comment in comments"
+                 :key="comment.id"
+                 class="box-card">
+          <div slot="header"
+               class="clearfix">
+            <span>{{comment.userName}}</span>
+            <el-button style="float: right; padding: 3px 0"
+                       type="text">{{comment.createTime}}</el-button>
+          </div>
+          <p>{{comment.content}}</p>
+        </el-card>
         <el-row>
           <el-col :span="20">
             <el-input style="margin:5px"
@@ -66,6 +77,36 @@ export default {
     };
   },
   methods: {
+    dateFormat(time) {
+      console.log(time);
+      var date = new Date(time);
+      var year = date.getFullYear();
+      var month =
+        date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1;
+      var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+      var hours =
+        date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+      var minutes =
+        date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+      var seconds =
+        date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+      // 拼接
+      return (
+        year +
+        "-" +
+        month +
+        "-" +
+        day +
+        " " +
+        hours +
+        ":" +
+        minutes +
+        ":" +
+        seconds
+      );
+    },
     getChapter(id) {
       axios
         .get("/book-reader/chapter/chapterDetail", {
@@ -90,6 +131,9 @@ export default {
           if (res.data.code == 0) {
             // console.log(res.data.data.records);
             this.comments = res.data.data.records;
+            this.comments.forEach((item, index) => {
+              item.createTime = this.dateFormat(item.createTime);
+            });
             // console.log(this.comments);
           }
         });
