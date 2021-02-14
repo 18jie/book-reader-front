@@ -14,11 +14,11 @@ export default {};
 </script>
 
 <style>
-.el-row {
+/* .el-row {
   background-color: #d3dce6;
   color: #333;
   text-align: center;
   margin-top: 20px;
   margin-left: 20px;
-}
+} */
 </style>

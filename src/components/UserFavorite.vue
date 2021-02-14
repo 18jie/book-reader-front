@@ -1,5 +1,5 @@
 <template>
-  <div v-if="bookMainList != null">
+  <div class="book_favorite" v-if="bookMainList != null">
     <el-table :data="bookMainList"
               style="width: 100%"
               @row-click="handleRowClick">
@@ -35,9 +35,14 @@ export default {
     getBooks() {
       axios.get("/book-reader/favorite/list").then((res) => {
         if (res.data.code == 0) {
-          this.bookMainList = res.data.data.records;
+          this.bookMainList = res.data.data;
         }
       });
+    },
+    handleRowClick(val) {
+      console.log(val);
+      this.$router.push({ name: "BookDetail", params: { bookId: val.id } });
+      console.log(this.$router);
     },
   },
   mounted: function () {
@@ -46,5 +51,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.book_favorite{
+  
+}
 </style>

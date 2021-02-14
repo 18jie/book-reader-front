@@ -129,11 +129,12 @@ export default {
         })
         .then((res) => {
           if (res.data.code == 0) {
-            // console.log(res.data.data.records);
+            console.log(res.data.data.records);
             this.comments = res.data.data.records;
             this.comments.forEach((item, index) => {
               item.createTime = this.dateFormat(item.createTime);
             });
+            this.getChapter(this.chapter.id);
             // console.log(this.comments);
           }
         });
